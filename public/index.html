@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Message wall</title>
+    <link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.1/normalize.css" />
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <form id="comment-form">
+      <input placeholder="Your comment here..." />
+    </form>
+
+    <div id="comments"></div>
+
+    <template id="comment-template">
+      <div class="comment">
+        <p class="comment--body"></p>
+      </div>
+    </template>
+
+    <script src="main.js"></script>
+  </body>
+</html>

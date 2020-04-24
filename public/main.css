@@ -1,0 +1,26 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 50px auto;
+  max-width: 500px;
+}
+
+#comment-form {
+  margin: 20px 0;
+}
+
+#comment-form input {
+  padding: 7px;
+  width: 100%;
+}
+
+.comment {
+  background: rgb(238, 255, 200);
+  border-radius: 5px;
+  margin: 5px 0;
+  overflow: auto;
+  padding: 5px 15px;
+}

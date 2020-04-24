@@ -1,0 +1,14 @@
+{
+  "name": "app",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon src/server"
+  },
+  "dependencies": {
+    "express": "~5.0.0-alpha.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
