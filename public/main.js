@@ -19,10 +19,15 @@ function renderComments(comments) {
 }
 
 function createCommentEl(comment) {
-  const commentTemplateEl = document.querySelector("#comment-template");
-  const el = document.importNode(commentTemplateEl.content, true);
-  // el.querySelector(".comment--body").textContent = comment;
-  el.querySelector(".comment--body").innerHTML = comment.body;
+  const el = document.createElement("div");
+  el.className = "comment";
+
+  // el.innerHTML = `<p>${comment.body}</p>`;
+
+  const p = document.createElement("p");
+  p.textContent = comment.body;
+  el.appendChild(p);
+
   return el;
 }
 
