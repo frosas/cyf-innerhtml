@@ -1,14 +1,20 @@
-function loadComments() {
-  return fetch("/api/comments")
+let commentsUpdatedAt;
+
+function loadNewComments() {
+  const queryParams = new URLSearchParams();
+  if (commentsUpdatedAt) queryParams.set("since", commentsUpdatedAt);
+  return fetch(`/api/comments?${queryParams}`)
     .then((res) => res.json())
-    .then((body) => body.comments.reverse());
+    .then(({ comments, date }) => {
+      commentsUpdatedAt = date;
+      return comments;
+    });
 }
 
 function renderComments(comments) {
   const commentsEl = document.querySelector("#comments");
-  commentsEl.innerHTML = "";
   comments.forEach((comment) => {
-    commentsEl.appendChild(createCommentEl(comment));
+    commentsEl.insertBefore(createCommentEl(comment), commentsEl.firstChild);
   });
 }
 
@@ -16,12 +22,12 @@ function createCommentEl(comment) {
   const commentTemplateEl = document.querySelector("#comment-template");
   const el = document.importNode(commentTemplateEl.content, true);
   // el.querySelector(".comment--body").textContent = comment;
-  el.querySelector(".comment--body").innerHTML = comment;
+  el.querySelector(".comment--body").innerHTML = comment.body;
   return el;
 }
 
 function updateComments() {
-  return loadComments().then(renderComments);
+  return loadNewComments().then(renderComments);
 }
 
 (function setupCommentForm() {
@@ -30,11 +36,11 @@ function updateComments() {
   inputEl.focus();
   formEl.addEventListener("submit", (event) => {
     event.preventDefault();
-    const comment = inputEl.value;
+    const body = inputEl.value;
     fetch("/api/comments", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ comment }),
+      body: JSON.stringify({ body }),
     }).then(() => {
       formEl.reset();
       updateComments();

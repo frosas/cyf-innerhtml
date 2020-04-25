@@ -12,13 +12,16 @@ app.get("/reset", (req, res) => {
 });
 
 app.get("/api/comments", (req, res) => {
-  res.send({ comments });
+  const { since = -Infinity } = req.query;
+  const newComments = comments.filter((comment) => comment.createdAt >= since);
+  res.send({ comments: newComments, date: Date.now() });
 });
 
 app.post("/api/comments", (req, res) => {
-  const { comment } = req.body;
+  const { body } = req.body;
+  const comment = { createdAt: Date.now(), body };
   comments.push(comment);
   res.status(201).send({});
 });
 
-const s = app.listen(8080, () => console.log("Server started"));
+app.listen(8080, () => console.log("Server started"));
