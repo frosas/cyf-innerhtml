@@ -4,24 +4,18 @@ const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 
-let comments = [];
-
-app.get("/reset", (req, res) => {
-  comments = [];
-  res.redirect("/");
-});
+const comments = [];
 
 app.get("/api/comments", (req, res) => {
   const { since = -Infinity } = req.query;
-  const newComments = comments.filter((comment) => comment.createdAt >= since);
-  res.send({ comments: newComments, date: Date.now() });
+  const commentsSince = comments.filter((comment) => comment.createdAt >= since);
+  res.send({ comments: commentsSince, until: Date.now() });
 });
 
 app.post("/api/comments", (req, res) => {
-  const { body } = req.body;
-  const comment = { createdAt: Date.now(), body };
+  const comment = { createdAt: Date.now(), body: req.body.body };
   comments.push(comment);
-  res.status(201).send({});
+  res.status(201).send();
 });
 
 app.listen(8080, () => console.log("Server started"));
